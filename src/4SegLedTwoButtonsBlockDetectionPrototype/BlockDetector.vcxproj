@@ -46,6 +46,9 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <IncludePath>$(IncludePath);$(ProjectDir)Headers\</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
       <LibraryDependencies>wiringPi</LibraryDependencies>
@@ -65,9 +68,19 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="fourBitSegment.c" />
+    <ClCompile Include="AxleCounter.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemGroup>
+    <ClInclude Include="Headers\AxleCounter.h" />
+    <ClInclude Include="Headers\Display.h" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);$(ProjectDir)Headers\</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
