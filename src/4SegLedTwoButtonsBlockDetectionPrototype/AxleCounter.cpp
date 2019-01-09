@@ -1,27 +1,17 @@
 #include <AxleCounter.h>
 #include <wiringPi.h>
+#include <WiringPiExt.h>
 
-int AxleCounter::_actualAxleCoutners = 0;
-
-AxleCounter* AxleCounter::AxleCounters[AxleCounter::maxAxleCounter] =
+void AxleCounter::LeftRailIsr0(void* arg)
 {
-	nullptr
-};
-
-void (*AxleCounter::isrFunctions[2 * AxleCounter::maxAxleCounter])(void) =
-{
-	AxleCounter::LeftRailIsr0,
-	AxleCounter::RightRailIsr0,
-};
-
-void AxleCounter::LeftRailIsr0()
-{
-	AxleCounters[0]->LeftRailISR();
+	AxleCounter* pCounter = (AxleCounter*)arg;
+	pCounter->LeftRailISR();
 }
 
-void AxleCounter::RightRailIsr0()
+void AxleCounter::RightRailIsr0(void* arg)
 {
-	AxleCounters[0]->RightRailISR();
+	AxleCounter* pCounter = (AxleCounter*)arg;
+	pCounter->RightRailISR();
 }
 
 AxleCounter::AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin, int rightOutputPin)
@@ -43,12 +33,15 @@ void AxleCounter::SysInit()
 
 	pullUpDnControl(_leftRailPin, PUD_UP);
 	pullUpDnControl(_rightRailPin, PUD_UP);
-		
-
-	AxleCounters[_actualAxleCoutners] = this;
-	wiringPiISR(_leftRailPin, INT_EDGE_FALLING, isrFunctions[2 * _actualAxleCoutners]);
-	wiringPiISR(_rightRailPin, INT_EDGE_FALLING, isrFunctions[2 * _actualAxleCoutners + 1]);
-	_actualAxleCoutners++;
+	
+	wiringPiISRExt(_leftRailPin,
+		INT_EDGE_FALLING,
+		LeftRailIsr0,
+		this);
+	wiringPiISRExt(_rightRailPin,
+		INT_EDGE_FALLING,
+		RightRailIsr0,
+		this);
 
 	if (_leftOutputPin > -1)
 	{

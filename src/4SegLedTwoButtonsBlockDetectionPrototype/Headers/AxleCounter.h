@@ -10,15 +10,8 @@ private:
 	int _leftOutputState;
 	int _rightOutputState;
 
-	static const int maxAxleCounter = 1;
-	static int _actualAxleCoutners;
-
-	static AxleCounter* AxleCounters[maxAxleCounter];
-
-	static void LeftRailIsr0();
-	static void RightRailIsr0();
-
-	static void(*isrFunctions[2 * maxAxleCounter])(void);
+	static void LeftRailIsr0(void* arg);
+	static void RightRailIsr0(void* arg);
 
 	void LeftRailISR();
 	void RightRailISR();
