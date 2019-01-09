@@ -38,7 +38,13 @@ void sysInit(void)
 
 int main(void)
 {
-	if(wiringPiSetup() == -1){ //when initialize wiring failed,print message to screen
+
+	// Important: currently the interrupt extensions made for
+	// this project ONLY work in WPI_MODE_PINS mode...
+	if(wiringPiSetup() == -1)
+	{
+
+		// when initialize wiring failed,print message to screen
 		printf("setup wiringPi failed !\n");
 		return -1; 
 	}

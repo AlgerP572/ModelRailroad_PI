@@ -5,10 +5,7 @@
 
 
 // Contains the code to actual the pins for the four digit 7 segment display.
-unsigned char const SegCode[10] = { 0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f };
-
-// the segcode to display for each digit.
-unsigned char DatBuf[4] = { 0,0,0,0 };
+unsigned char const FourDigitSevenSegmentDisplay::SegCode[10] = { 0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f };
 
 FourDigitSevenSegmentDisplay::FourDigitSevenSegmentDisplay(int pin0, int pin1, int pin2, int pin3)
 {
@@ -40,10 +37,10 @@ void FourDigitSevenSegmentDisplay::SysInit(void)
 
 void FourDigitSevenSegmentDisplay::SetDisplayValue(int value)
 {
-	DatBuf[0] = SegCode[value % 10];
-	DatBuf[1] = SegCode[value % 100 / 10];
-	DatBuf[2] = SegCode[value % 1000 / 100];
-	DatBuf[3] = SegCode[value / 1000];
+	_datBuf[0] = SegCode[value % 10];
+	_datBuf[1] = SegCode[value % 100 / 10];
+	_datBuf[2] = SegCode[value % 1000 / 100];
+	_datBuf[3] = SegCode[value / 1000];
 }
 
 void FourDigitSevenSegmentDisplay::Display(void)
@@ -55,7 +52,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		digitalWrite(_pin1, 1);
 		digitalWrite(_pin2, 1);
 		digitalWrite(_pin3, 1);
-		digitalWriteByte(DatBuf[0]);
+		digitalWriteByte(_datBuf[0]);
 
 		delay(1);
 
@@ -63,7 +60,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		digitalWrite(_pin1, 0);
 		digitalWrite(_pin2, 1);
 		digitalWrite(_pin3, 1);
-		digitalWriteByte(DatBuf[1]);
+		digitalWriteByte(_datBuf[1]);
 
 		delay(1);
 
@@ -71,7 +68,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		digitalWrite(_pin1, 1);
 		digitalWrite(_pin2, 0);
 		digitalWrite(_pin3, 1);
-		digitalWriteByte(DatBuf[2]);
+		digitalWriteByte(_datBuf[2]);
 
 		delay(1);
 
@@ -79,7 +76,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		digitalWrite(_pin1, 1);
 		digitalWrite(_pin2, 1);
 		digitalWrite(_pin3, 0);
-		digitalWriteByte(DatBuf[3]);
+		digitalWriteByte(_datBuf[3]);
 
 		delay(1);
 	}
