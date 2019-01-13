@@ -5,6 +5,7 @@
     <ClCompile Include="AxleCounter.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="WiringPiExt.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -19,6 +20,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Headers\WiringPiExt.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Timer.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

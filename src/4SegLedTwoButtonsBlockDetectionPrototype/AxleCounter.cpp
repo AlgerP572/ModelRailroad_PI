@@ -61,16 +61,52 @@ void AxleCounter::RefreshOutputStatus()
 
 void AxleCounter::LeftRailISR()
 {
-	_leftOutputState = !_leftOutputState;
+	if (_rightRailCount > 0 &&
+		_leftRailCount > 0)
+	{
+		return;
+	}
 
-	// For now this is the wrong logic but used for early testing of LED display
-	AxleCount++;
+	_leftRailCount++;
+	_leftOutputState = true;
+
+	if (_rightRailCount > 0)
+	{
+		AxleCount++;
+
+		_axelTimer.Start((char*)"LeftAxel",
+			std::bind(&AxleCounter::ResetForNextAxel, this),
+			100,
+			0);
+	}
 }
 
 void AxleCounter::RightRailISR()
 {
-	_rightOutputState = !_rightOutputState;
+	if (_rightRailCount > 0 &&
+		_leftRailCount > 0)
+	{
+		return;
+	}
 
-	// For now this is the wrong logic but used for early testing of LED display
-	AxleCount++;
+	_rightRailCount++;
+	_rightOutputState = true;
+
+	if (_leftRailCount > 0)
+	{		
+		AxleCount--;
+
+		_axelTimer.Start("RightAxel",
+			std::bind(&AxleCounter::ResetForNextAxel, this),
+			100,
+			0);
+	}
+}
+
+void AxleCounter::ResetForNextAxel()
+{
+	_leftRailCount = 0;
+	_rightRailCount = 0;
+	_leftOutputState = false;
+	_rightOutputState = false;
 }

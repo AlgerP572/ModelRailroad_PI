@@ -1,5 +1,9 @@
 #pragma once
 
+#include <signal.h>
+#include <time.h>
+#include <Timer.h>
+
 class AxleCounter
 {
 private:
@@ -10,11 +14,17 @@ private:
 	int _leftOutputState;
 	int _rightOutputState;
 
+	int _leftRailCount;
+	int _rightRailCount;
+
+	Timer _axelTimer;
+
 	static void LeftRailIsr0(void* arg);
 	static void RightRailIsr0(void* arg);
 
 	void LeftRailISR();
 	void RightRailISR();
+	void ResetForNextAxel();
 
 public:
 	int AxleCount;
