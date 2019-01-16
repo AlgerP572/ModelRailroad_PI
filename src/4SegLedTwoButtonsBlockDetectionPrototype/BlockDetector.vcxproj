@@ -77,6 +77,7 @@
   <ItemGroup>
     <ClInclude Include="Headers\AxleCounter.h" />
     <ClInclude Include="Headers\Display.h" />
+    <ClInclude Include="Headers\StopWatch.h" />
     <ClInclude Include="Headers\Timer.h" />
     <ClInclude Include="Headers\WiringPiExt.h" />
   </ItemGroup>

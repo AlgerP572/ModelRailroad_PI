@@ -17,6 +17,7 @@ void AxleCounter::RightRailIsr0(void* arg)
 AxleCounter::AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin, int rightOutputPin)
 {
 	AxleCount = 0;
+	TrainPresenceDetectionAxleCount = 0;
 	_leftRailPin = leftRailPin;
 	_rightRailPin = rightRailPin;
 
@@ -70,14 +71,20 @@ void AxleCounter::LeftRailISR()
 	_leftRailCount++;
 	_leftOutputState = true;
 
+	// Important: Does not restart if already going...
+	_axelTime.Start();
+
 	if (_rightRailCount > 0)
 	{
 		AxleCount++;
+		TrainPresenceDetectionAxleCount++;
 
 		_axelTimer.Start((char*)"LeftAxel",
 			std::bind(&AxleCounter::ResetForNextAxel, this),
 			100,
 			0);
+
+		CalculateSpeed();
 	}
 }
 
@@ -91,15 +98,21 @@ void AxleCounter::RightRailISR()
 
 	_rightRailCount++;
 	_rightOutputState = true;
+		
+	// Important: Does not restart if already going...
+	_axelTime.Start();
 
 	if (_leftRailCount > 0)
 	{		
-		AxleCount--;
+		AxleCount++;
+		TrainPresenceDetectionAxleCount--;
 
 		_axelTimer.Start("RightAxel",
 			std::bind(&AxleCounter::ResetForNextAxel, this),
 			100,
 			0);
+
+		CalculateSpeed();
 	}
 }
 
@@ -109,4 +122,17 @@ void AxleCounter::ResetForNextAxel()
 	_rightRailCount = 0;
 	_leftOutputState = false;
 	_rightOutputState = false;
+}
+
+void AxleCounter::CalculateSpeed()
+{
+	_axelTime.Stop();
+
+	// Speed is in km/H ...
+	float elapsed = (float) _axelTime.Elapsed().count(); // µSec
+	float distance = (_detectorLengthMm * _railroadScale) / 10; // To scal to Km/H
+	_axelScaleSpeedKmH = distance / elapsed;
+	_axelTime.Reset();
+
+	_trainScaleSpeedKmH = ((_trainScaleSpeedKmH * ((float)AxleCount - 1.0f)) + _axelScaleSpeedKmH) / (float)AxleCount;
 }
