@@ -16,8 +16,7 @@ void AxleCounter::RightRailIsr0(void* arg)
 
 AxleCounter::AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin, int rightOutputPin)
 {
-	AxleCount = 0;
-	TrainPresenceDetectionAxleCount = 0;
+	AxleCount = 0;	
 	_leftRailPin = leftRailPin;
 	_rightRailPin = rightRailPin;
 
@@ -25,6 +24,8 @@ AxleCounter::AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin, i
 	// for another purpose if desried.
 	_leftOutputPin = leftOutputPin;
 	_rightOutputPin = rightOutputPin;
+
+	AxleDtected = NULL;
 }
 
 void AxleCounter::SysInit()
@@ -77,14 +78,22 @@ void AxleCounter::LeftRailISR()
 	if (_rightRailCount > 0)
 	{
 		AxleCount++;
-		TrainPresenceDetectionAxleCount++;
+
+		static float scaleFactor = 3600.0f /*sec/h*/ * 1000.0f /* ms / sec */ / 10000000.0f /* mm/km */;
+		float axelSpeedkmH = CalculateSpeed();
+		int axleDebounceTime = (int) (scaleFactor * _axelScaleSizeMm / axelSpeedkmH); // msec conversion.
 
 		_axelTimer.Start((char*)"LeftAxel",
 			std::bind(&AxleCounter::ResetForNextAxel, this),
-			100,
+			axleDebounceTime,
 			0);
 
 		CalculateSpeed();
+
+		if (AxleDtected != NULL)
+		{
+			AxleDtected(AxleCount, axelSpeedkmH);
+		}
 	}
 }
 
@@ -104,15 +113,21 @@ void AxleCounter::RightRailISR()
 
 	if (_leftRailCount > 0)
 	{		
-		AxleCount++;
-		TrainPresenceDetectionAxleCount--;
+		AxleCount--;
+
+		static float scaleFactor = 3600.0f /*sec/h*/ * 1000.0f /* ms / sec */ / 10000000.0f /* mm/km */;
+		float axelSpeedkmH = CalculateSpeed();
+		int axleDebounceTime = (int)(scaleFactor * _axelScaleSizeMm / axelSpeedkmH); // msec conversion.
 
 		_axelTimer.Start("RightAxel",
 			std::bind(&AxleCounter::ResetForNextAxel, this),
-			100,
-			0);
+			axleDebounceTime,
+			0);		
 
-		CalculateSpeed();
+		if (AxleDtected != NULL)
+		{
+			AxleDtected(AxleCount, axelSpeedkmH);
+		}
 	}
 }
 
@@ -124,15 +139,17 @@ void AxleCounter::ResetForNextAxel()
 	_rightOutputState = false;
 }
 
-void AxleCounter::CalculateSpeed()
+float AxleCounter::CalculateSpeed()
 {
 	_axelTime.Stop();
 
+	static float const scaleFactor = (3600.0 /* sec/hr */ * 1000000.0 /* µsec / sec*/) / 10000000.0 /* mm / km*/;
+
 	// Speed is in km/H ...
 	float elapsed = (float) _axelTime.Elapsed().count(); // µSec
-	float distance = (_detectorLengthMm * _railroadScale) / 10; // To scal to Km/H
-	_axelScaleSpeedKmH = distance / elapsed;
 	_axelTime.Reset();
 
-	_trainScaleSpeedKmH = ((_trainScaleSpeedKmH * ((float)AxleCount - 1.0f)) + _axelScaleSpeedKmH) / (float)AxleCount;
+	float distance = (_detectorLengthMm * _railroadScale); 
+	float result = scaleFactor * distance / elapsed; // To scal to Km/H
+	return result;	
 }

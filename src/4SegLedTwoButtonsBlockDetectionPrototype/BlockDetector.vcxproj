@@ -72,6 +72,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TrainBlockDetector.cpp" />
     <ClCompile Include="WiringPiExt.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +80,7 @@
     <ClInclude Include="Headers\Display.h" />
     <ClInclude Include="Headers\StopWatch.h" />
     <ClInclude Include="Headers\Timer.h" />
+    <ClInclude Include="Headers\TrainBlockDetector.h" />
     <ClInclude Include="Headers\WiringPiExt.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">

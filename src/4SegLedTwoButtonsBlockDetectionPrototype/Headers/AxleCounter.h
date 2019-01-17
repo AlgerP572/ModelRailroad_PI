@@ -24,9 +24,8 @@ private:
 	// TODO: configuration items...
 	float _detectorLengthMm = 10.0;
 	float _railroadScale = 22.5;
-	float _axelScaleSpeedKmH;
-	float _trainScaleSpeedKmH;
-
+	float _axelScaleSizeMm = 1000;
+	
 	static void LeftRailIsr0(void* arg);
 	static void RightRailIsr0(void* arg);
 
@@ -34,13 +33,14 @@ private:
 	void RightRailISR();
 	void ResetForNextAxel();
 
-	void CalculateSpeed();
+	float CalculateSpeed();
 
 public:
 	int AxleCount;
-	int TrainPresenceDetectionAxleCount;
-
+	
 	AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin = -1, int rightOutputPin = -1);
 	void SysInit(void);
 	void RefreshOutputStatus();
+
+	std::function<void(int, float)> AxleDtected;
 };
