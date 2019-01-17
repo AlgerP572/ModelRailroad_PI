@@ -1,7 +1,9 @@
+#include <stdio.h>
+
 #include <wiringPi.h>
 #include <Display.h>
 #include <AxleCounter.h>
-#include <stdio.h>
+#include <TrainBlockDetector.h>
 
 // MAP of pins the program uses (PI pin numbers here)...
 
@@ -25,6 +27,13 @@ const int numAxleCounters = 1;
 static AxleCounter axleCounters[numAxleCounters] =
 {
 	AxleCounter(LeftRailInput, RightRailInput, LeftRailOutput, RightRailOutput)
+};
+
+const int numTrainBlockDtectors = 1;
+
+static TrainBlockDetector trainBlockDetector[numTrainBlockDtectors] =
+{
+	TrainBlockDetector(&(axleCounters[0]))
 };
 
 void sysInit(void)

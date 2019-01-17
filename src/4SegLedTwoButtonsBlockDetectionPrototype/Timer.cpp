@@ -33,10 +33,13 @@ int Timer::Start(char const *name, std::function<void()> userFunc, int expireMS,
 		&te,
 		&_timerID);
 
-	its.it_interval.tv_sec = 0;
-	its.it_interval.tv_nsec = intervalMS * 1000000;
-	its.it_value.tv_sec = 0;
-	its.it_value.tv_nsec = expireMS * 1000000;
+	unsigned long intervalns = (unsigned long) intervalMS * 1000000UL;
+	unsigned long expirens = (unsigned long) expireMS * 1000000UL;
+
+	its.it_interval.tv_sec = intervalns / 1000000000UL;
+	its.it_interval.tv_nsec = intervalns % 1000000000UL;
+	its.it_value.tv_sec = expirens / 1000000000UL;
+	its.it_value.tv_nsec = expirens % 1000000000UL;
 	timer_settime(_timerID,
 		0,
 		&its,

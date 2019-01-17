@@ -6,6 +6,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="WiringPiExt.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TrainBlockDetector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -26,6 +27,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Headers\StopWatch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\TrainBlockDetector.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
