@@ -25,5 +25,8 @@
     <ClInclude Include="Headers\Timer.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\StopWatch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
