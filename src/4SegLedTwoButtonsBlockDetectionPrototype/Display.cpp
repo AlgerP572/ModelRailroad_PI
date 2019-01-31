@@ -1,46 +1,78 @@
-#include <Display.h>
-
-#include <wiringPi.h>
 #include <stdio.h>
+
+#include <Display.h>
+#include <Peripheral.h>
 
 
 // Contains the code to actual the pins for the four digit 7 segment display.
-unsigned char const FourDigitSevenSegmentDisplay::SegCode[10] = { 0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f };
+// These are the ideal Segment codes as if pins 0-7 were used to display the
+// characters...
+// During constuction a new map is created that is specific to the pins that
+// your harware isactually using.
+uint32_t const FourDigitSevenSegmentDisplay::unmappedSegCode[10] = { 0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f };
 
-FourDigitSevenSegmentDisplay::FourDigitSevenSegmentDisplay(int pin0, int pin1, int pin2, int pin3)
+FourDigitSevenSegmentDisplay::FourDigitSevenSegmentDisplay(Gpio* gpio,
+	int pin0,
+	int pin1,
+	int pin2,
+	int pin3,
+	CharacterDisplayPins* characterPins)
 {
+	_gpio = gpio;
 	_pin0 = pin0;
 	_pin1 = pin1;
 	_pin2 = pin2;
 	_pin3 = pin3;
+	_characterPins = characterPins;
+
+	RemapSegCodes();
+}
+
+void FourDigitSevenSegmentDisplay::RemapSegCodes()
+{
+	for (int j = 0; j < 10; j++)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			uint32_t segCode = unmappedSegCode[j] & (1 << i);
+
+			if (segCode > 0)
+			{
+				mappedSegCode[j] |= (1 << _characterPins->_charPins[i]);
+			}
+			else
+			{
+				mappedSegCode[j] &= ~(1 << _characterPins->_charPins[i]);
+			}
+		}
+	}
 }
 
 void FourDigitSevenSegmentDisplay::SysInit(void)
 {
-	pinMode(_pin0, OUTPUT);
-	pinMode(_pin1, OUTPUT);
-	pinMode(_pin2, OUTPUT);
-	pinMode(_pin3, OUTPUT);
+	_gpio->SetPinMode(_pin0, PinMode::Output);
+	_gpio->SetPinMode(_pin1, PinMode::Output);
+	_gpio->SetPinMode(_pin2, PinMode::Output);
+	_gpio->SetPinMode(_pin3, PinMode::Output);
 
-	digitalWrite(_pin0, HIGH);
-	digitalWrite(_pin1, HIGH);
-	digitalWrite(_pin2, HIGH);
-	digitalWrite(_pin3, HIGH);
-
-	// Digital Write byte uses PI IO pins 0-7 se we use those...
+	_gpio->WritePin(_pin0, PinState::High);
+	_gpio->WritePin(_pin1, PinState::High);
+	_gpio->WritePin(_pin2, PinState::High);
+	_gpio->WritePin(_pin3, PinState::High);
+	
 	for (int i = 0; i < 8; i++)
 	{
-		pinMode(i, OUTPUT);
-		digitalWrite(i, HIGH);
+		_gpio->SetPinMode(_characterPins->_charPins[i], PinMode::Output);
+		_gpio->WritePin(_characterPins->_charPins[i], PinState::High);
 	}
 }
 
 void FourDigitSevenSegmentDisplay::SetDisplayValue(int value)
 {
-	_datBuf[0] = SegCode[value % 10];
-	_datBuf[1] = SegCode[value % 100 / 10];
-	_datBuf[2] = SegCode[value % 1000 / 100];
-	_datBuf[3] = SegCode[value / 1000];
+	_datBuf[0] = mappedSegCode[value % 10];
+	_datBuf[1] = mappedSegCode[value % 100 / 10];
+	_datBuf[2] = mappedSegCode[value % 1000 / 100];
+	_datBuf[3] = mappedSegCode[value / 1000];
 }
 
 void FourDigitSevenSegmentDisplay::Display(void)
@@ -48,36 +80,36 @@ void FourDigitSevenSegmentDisplay::Display(void)
 	int i;
 
 	for (i = 0; i < 100; i++) {
-		digitalWrite(_pin0, 0);
-		digitalWrite(_pin1, 1);
-		digitalWrite(_pin2, 1);
-		digitalWrite(_pin3, 1);
-		digitalWriteByte(_datBuf[0]);
+		_gpio->WritePin(_pin0, PinState::Low);
+		_gpio->WritePin(_pin1, PinState::High);
+		_gpio->WritePin(_pin2, PinState::High);
+		_gpio->WritePin(_pin3, PinState::High);
+		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[0]);
 
-		delay(1);
+		Peripheral::DelayMilliseconds(1);
 
-		digitalWrite(_pin0, 1);
-		digitalWrite(_pin1, 0);
-		digitalWrite(_pin2, 1);
-		digitalWrite(_pin3, 1);
-		digitalWriteByte(_datBuf[1]);
+		_gpio->WritePin(_pin0, PinState::High);
+		_gpio->WritePin(_pin1, PinState::Low);
+		_gpio->WritePin(_pin2, PinState::High);
+		_gpio->WritePin(_pin3, PinState::High);
+		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[1]);
 
-		delay(1);
+		Peripheral::DelayMilliseconds(1);
 
-		digitalWrite(_pin0, 1);
-		digitalWrite(_pin1, 1);
-		digitalWrite(_pin2, 0);
-		digitalWrite(_pin3, 1);
-		digitalWriteByte(_datBuf[2]);
+		_gpio->WritePin(_pin0, PinState::High);
+		_gpio->WritePin(_pin1, PinState::High);
+		_gpio->WritePin(_pin2, PinState::Low);
+		_gpio->WritePin(_pin3, PinState::High);
+		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[2]);
 
-		delay(1);
+		Peripheral::DelayMilliseconds(1);
 
-		digitalWrite(_pin0, 1);
-		digitalWrite(_pin1, 1);
-		digitalWrite(_pin2, 1);
-		digitalWrite(_pin3, 0);
-		digitalWriteByte(_datBuf[3]);
+		_gpio->WritePin(_pin0, PinState::High);
+		_gpio->WritePin(_pin1, PinState::High);
+		_gpio->WritePin(_pin2, PinState::High);
+		_gpio->WritePin(_pin3, PinState::Low);
+		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[3]);
 
-		delay(1);
+		Peripheral::DelayMilliseconds(1);
 	}
 }

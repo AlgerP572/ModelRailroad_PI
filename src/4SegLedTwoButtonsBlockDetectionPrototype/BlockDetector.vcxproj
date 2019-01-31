@@ -69,23 +69,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AxleCounter.cpp" />
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Dma.cpp" />
+    <ClCompile Include="DmaMemory.cpp" />
+    <ClCompile Include="Gpio.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Peripheral.cpp" />
+    <ClCompile Include="PulseGenerator.cpp" />
+    <ClCompile Include="Pwm.cpp" />
+    <ClCompile Include="ScreenLog.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TrainBlockDetector.cpp" />
-    <ClCompile Include="WiringPiExt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\AxleCounter.h" />
+    <ClInclude Include="Headers\Clock.h" />
     <ClInclude Include="Headers\Display.h" />
+    <ClInclude Include="Headers\Dma.h" />
+    <ClInclude Include="Headers\DmaMemory.h" />
+    <ClInclude Include="Headers\Gpio.h" />
+    <ClInclude Include="Headers\hw-addresses.h" />
+    <ClInclude Include="Headers\Peripheral.h" />
+    <ClInclude Include="Headers\PulseGenerator.h" />
+    <ClInclude Include="Headers\Pwm.h" />
+    <ClInclude Include="Headers\ScreenLog.h" />
     <ClInclude Include="Headers\StopWatch.h" />
     <ClInclude Include="Headers\Timer.h" />
     <ClInclude Include="Headers\TrainBlockDetector.h" />
-    <ClInclude Include="Headers\WiringPiExt.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);$(ProjectDir)Headers\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>RPI_V3</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

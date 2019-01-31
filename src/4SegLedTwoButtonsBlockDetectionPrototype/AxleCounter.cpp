@@ -1,6 +1,4 @@
 #include <AxleCounter.h>
-#include <wiringPi.h>
-#include <WiringPiExt.h>
 
 void AxleCounter::LeftRailIsr0(void* arg)
 {
@@ -14,8 +12,9 @@ void AxleCounter::RightRailIsr0(void* arg)
 	pCounter->RightRailISR();
 }
 
-AxleCounter::AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin, int rightOutputPin)
+AxleCounter::AxleCounter(Gpio* gpio, int leftRailPin, int rightRailPin, int leftOutputPin, int rightOutputPin)
 {
+	_gpio = gpio;
 	AxleCount = 0;	
 	_leftRailPin = leftRailPin;
 	_rightRailPin = rightRailPin;
@@ -30,35 +29,35 @@ AxleCounter::AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin, i
 
 void AxleCounter::SysInit()
 {
-	pinMode(_leftRailPin, INPUT);
-	pinMode(_rightRailPin, INPUT);
+	_gpio->SetPinMode(_leftRailPin, PinMode::Input);
+	_gpio->SetPinMode(_rightRailPin, PinMode::Input);
 
-	pullUpDnControl(_leftRailPin, PUD_UP);
-	pullUpDnControl(_rightRailPin, PUD_UP);
+	_gpio->SetPudMode(_leftRailPin, PudMode::PullUp);
+	_gpio->SetPudMode(_rightRailPin, PudMode::PullUp);
 	
-	wiringPiISRExt(_leftRailPin,
-		INT_EDGE_FALLING,
+	_gpio->SetIsr(_leftRailPin,
+		IntTrigger::Falling,
 		LeftRailIsr0,
 		this);
-	wiringPiISRExt(_rightRailPin,
-		INT_EDGE_FALLING,
+	_gpio->SetIsr(_rightRailPin,
+		IntTrigger::Falling,
 		RightRailIsr0,
 		this);
 
 	if (_leftOutputPin > -1)
 	{
-		pinMode(_leftOutputPin, OUTPUT);
+		_gpio->SetPinMode(_leftOutputPin, PinMode::Output);
 	}
 	if (_rightOutputPin > -1)
 	{
-		pinMode(_rightOutputPin, OUTPUT);
+		_gpio->SetPinMode(_rightOutputPin, PinMode::Output);
 	}
 }
 
 void AxleCounter::RefreshOutputStatus()
 {
-	digitalWrite(_leftOutputPin, _leftOutputState);
-	digitalWrite(_rightOutputPin, _rightOutputState);
+	_gpio->WritePin(_leftOutputPin, _leftOutputState);
+	_gpio->WritePin(_rightOutputPin, _rightOutputState);
 }
 
 void AxleCounter::LeftRailISR()
@@ -70,7 +69,7 @@ void AxleCounter::LeftRailISR()
 	}
 
 	_leftRailCount++;
-	_leftOutputState = true;
+	_leftOutputState = PinState::High;
 
 	// Important: Does not restart if already going...
 	_axelTime.Start();
@@ -106,7 +105,7 @@ void AxleCounter::RightRailISR()
 	}
 
 	_rightRailCount++;
-	_rightOutputState = true;
+	_rightOutputState = PinState::High;
 		
 	// Important: Does not restart if already going...
 	_axelTime.Start();
@@ -135,8 +134,8 @@ void AxleCounter::ResetForNextAxel()
 {
 	_leftRailCount = 0;
 	_rightRailCount = 0;
-	_leftOutputState = false;
-	_rightOutputState = false;
+	_leftOutputState = PinState::Low;
+	_rightOutputState = PinState::Low;
 }
 
 float AxleCounter::CalculateSpeed()

@@ -4,9 +4,16 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="AxleCounter.cpp" />
     <ClCompile Include="Display.cpp" />
-    <ClCompile Include="WiringPiExt.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TrainBlockDetector.cpp" />
+    <ClCompile Include="PulseGenerator.cpp" />
+    <ClCompile Include="ScreenLog.cpp" />
+    <ClCompile Include="Peripheral.cpp" />
+    <ClCompile Include="Gpio.cpp" />
+    <ClCompile Include="Pwm.cpp" />
+    <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="DmaMemory.cpp" />
+    <ClCompile Include="Dma.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -20,9 +27,6 @@
     <ClInclude Include="Headers\AxleCounter.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\WiringPiExt.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\Timer.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -30,6 +34,33 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Headers\TrainBlockDetector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\PulseGenerator.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ScreenLog.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\hw-addresses.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Peripheral.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Gpio.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Pwm.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Clock.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\DmaMemory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Dma.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
