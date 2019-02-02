@@ -2,9 +2,6 @@
 
 #include <signal.h>
 #include <time.h>
-#include <Gpio.h>
-#include <Timer.h>
-#include <StopWatch.h>
 
 class AxleCounter
 {

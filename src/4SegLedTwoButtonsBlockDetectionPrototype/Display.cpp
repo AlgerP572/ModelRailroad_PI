@@ -1,8 +1,7 @@
-#include <stdio.h>
+#include "./Headers/Display.h"
 
-#include <Display.h>
-#include <Peripheral.h>
-
+#include "../../../APLPIe/Src/Headers/Peripheral.h"
+#include "../../../APLPIe/Src/Headers/Gpio.h"
 
 // Contains the code to actual the pins for the four digit 7 segment display.
 // These are the ideal Segment codes as if pins 0-7 were used to display the

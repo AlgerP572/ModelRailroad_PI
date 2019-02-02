@@ -1,40 +1,45 @@
 #include <stdio.h>
+#include <stdint.h>
 
-#include <Display.h>
-#include <Clock.h>
-#include <Dma.h>
-#include <Gpio.h>
-#include <Pwm.h>
-#include <AxleCounter.h>
-#include <TrainBlockDetector.h>
+#include "../../../APLPIe/Src/Headers/Clock.h"
+#include "../../../APLPIe/Src/Headers/Dma.h"
+#include "../../../APLPIe/Src/Headers/Gpio.h"
+#include "../../../APLPIe/Src/Headers/Pwm.h"
+#include "../../../APLPIe/Src/Headers/Timer.h"
+
+#include "./Headers/StopWatch.h"
+#include "./Headers/Display.h"
+
+#include "./Headers/AxleCounter.h"
+#include "./Headers/TrainBlockDetector.h"
 
 // MAP of pins the program uses (PI pin numbers here)...
 
 // The LED segments use digitalWriteByte so by definition use PI pins 0 - 7
 
 // Display (These select the digit to display.)
-#define   DisplayBit0    2
-#define   DisplayBit1    3
-#define   DisplayBit2    8
-#define   DisplayBit3    7
+#define   DisplayPin0    2
+#define   DisplayPin1    3
+#define   DisplayPin2    8
+#define   DisplayPin3    7
 
-#define   DisplayCharBit0 17
-#define   DisplayCharBit1 18
-#define   DisplayCharBit2 27
-#define   DisplayCharBit3 22
-#define   DisplayCharBit4 23
-#define   DisplayCharBit5 24
-#define   DisplayCharBit6 25
-#define   DisplayCharBit7 4
+#define   DisplayCharPin0 17
+#define   DisplayCharPin1 18
+#define   DisplayCharPin2 27
+#define   DisplayCharPin3 22
+#define   DisplayCharPin4 23
+#define   DisplayCharPin5 24
+#define   DisplayCharPin6 25
+#define   DisplayCharPin7 4
 
-static CharacterDisplayPins characterPins = CharacterDisplayPins(DisplayCharBit0,
-	DisplayCharBit1,
-	DisplayCharBit2,
-	DisplayCharBit3,
-	DisplayCharBit4,
-	DisplayCharBit5,
-	DisplayCharBit6,
-	DisplayCharBit7);
+static CharacterDisplayPins characterPins = CharacterDisplayPins(DisplayCharPin0,
+	DisplayCharPin1,
+	DisplayCharPin2,
+	DisplayCharPin3,
+	DisplayCharPin4,
+	DisplayCharPin5,
+	DisplayCharPin6,
+	DisplayCharPin7);
 
 // Output pulses for testing
 //#define LeftRailOutput 21
@@ -56,10 +61,10 @@ const int numPeripherals = 4;
 static Peripheral** peripherals = new Peripheral*[numPeripherals];
 
 static FourDigitSevenSegmentDisplay display(&gpio,
-	DisplayBit0,
-	DisplayBit1,
-	DisplayBit2,
-	DisplayBit3,
+	DisplayPin0,
+	DisplayPin1,
+	DisplayPin2,
+	DisplayPin3,
 	&characterPins);
 
 const int numAxleCounters = 1;
@@ -92,8 +97,8 @@ void sysInit(void)
 		peripherals[i]->SysInit();
 	}
 
-	// Now init devices... For now working definitions is
-	// a device is made up of one or more dependent peripherls
+	// Now init devices... For now working definition is
+	// a device is made up of one or more dependent peripherals
 	display.SysInit();
 	for (int i = 0; i < numAxleCounters; i++)
 	{

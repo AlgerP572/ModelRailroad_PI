@@ -1,6 +1,7 @@
 #pragma once
+#include <stdint.h>
 
-#include <Gpio.h>
+class Gpio;
 
 struct CharacterDisplayPins 
 {
