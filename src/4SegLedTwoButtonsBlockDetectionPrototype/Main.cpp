@@ -97,6 +97,20 @@ void sysInit(void)
 		peripherals[i]->SysInit();
 	}
 
+	gpio.Export(DisplayPin0);
+	gpio.Export(DisplayPin1);
+	gpio.Export(DisplayPin2);
+	gpio.Export(DisplayPin3);
+
+	gpio.Export(DisplayCharPin0);
+	gpio.Export(DisplayCharPin1);
+	gpio.Export(DisplayCharPin2);
+	gpio.Export(DisplayCharPin3);
+	gpio.Export(DisplayCharPin4);
+	gpio.Export(DisplayCharPin5);
+	gpio.Export(DisplayCharPin6);
+	gpio.Export(DisplayCharPin7);
+
 	// Now init devices... For now working definition is
 	// a device is made up of one or more dependent peripherals
 	display.SysInit();
@@ -108,14 +122,36 @@ void sysInit(void)
 
 void sysUninit(void)
 {
+	gpio.Unexport(DisplayPin0);
+	gpio.Unexport(DisplayPin1);
+	gpio.Unexport(DisplayPin2);
+	gpio.Unexport(DisplayPin3);
+
+	gpio.Unexport(DisplayCharPin0);
+	gpio.Unexport(DisplayCharPin1);
+	gpio.Unexport(DisplayCharPin2);
+	gpio.Unexport(DisplayCharPin3);
+	gpio.Unexport(DisplayCharPin4);
+	gpio.Unexport(DisplayCharPin5);
+	gpio.Unexport(DisplayCharPin6);
+	gpio.Unexport(DisplayCharPin7);
+
 	for (int i = 0; i < numPeripherals; i++)
 	{
 		peripherals[i]->SysUninit();
 	}
 }
 
+void sig_handler(int sig)
+{
+	sysUninit();
+}
+
 int main(void)
 {
+	// Register signals 
+	signal(SIGQUIT, sig_handler);
+	signal(SIGABRT, sig_handler);
 
 	// Now that library is intialized the individual devices
 	// can be intialized.

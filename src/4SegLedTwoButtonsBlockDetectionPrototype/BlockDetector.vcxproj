@@ -55,8 +55,10 @@
       <LibraryDependencies>wiringPi;pthread;rt</LibraryDependencies>
     </Link>
     <RemotePostBuildEvent>
-      <Command>gpio export 17 out &amp;&amp; gpio export 18 out &amp;&amp; gpio export 27 out &amp;&amp; gpio export 22 out &amp;&amp; gpio export 23 out &amp;&amp; gpio export 24 out &amp;&amp; gpio export 25 out &amp;&amp; gpio export 2 out &amp;&amp; gpio export 3 out &amp;&amp; gpio export 4 out &amp;&amp; gpio export 8 out &amp;&amp; gpio export 7 out  &amp;&amp; gpio export 7 out  &amp;&amp; gpio export 7 out &amp;&amp; gpio export 19 out &amp;&amp; gpio export 26 out &amp;&amp; gpio export 27 in &amp;&amp; gpio export 28 in</Command>
-      <Message>export pin 17 using the gpio utility so that we can execute the blink program without sudo</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -69,6 +71,7 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\APLPIe\Src\Delay.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Clock.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Dma.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\DmaMemory.cpp" />
@@ -85,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Clock.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Delay.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Dma.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\DmaMemory.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Gpio.h" />

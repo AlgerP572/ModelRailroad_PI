@@ -30,6 +30,9 @@
     <ClCompile Include="..\..\..\APLPIe\Src\ScreenLog.cpp">
       <Filter>APLPIe</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\APLPIe\Src\Delay.cpp">
+      <Filter>APLPIe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -80,6 +83,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\ScreenLog.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Delay.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

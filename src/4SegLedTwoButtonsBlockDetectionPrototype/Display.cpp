@@ -1,5 +1,6 @@
 #include "./Headers/Display.h"
 
+#include "../../../APLPIe/Src/Headers/Delay.h"
 #include "../../../APLPIe/Src/Headers/Peripheral.h"
 #include "../../../APLPIe/Src/Headers/Gpio.h"
 
@@ -85,7 +86,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		_gpio->WritePin(_pin3, PinState::High);
 		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[0]);
 
-		Peripheral::DelayMilliseconds(1);
+		Delay::Milliseconds(1);
 
 		_gpio->WritePin(_pin0, PinState::High);
 		_gpio->WritePin(_pin1, PinState::Low);
@@ -93,7 +94,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		_gpio->WritePin(_pin3, PinState::High);
 		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[1]);
 
-		Peripheral::DelayMilliseconds(1);
+		Delay::Milliseconds(1);
 
 		_gpio->WritePin(_pin0, PinState::High);
 		_gpio->WritePin(_pin1, PinState::High);
@@ -101,7 +102,7 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		_gpio->WritePin(_pin3, PinState::High);
 		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[2]);
 
-		Peripheral::DelayMilliseconds(1);
+		Delay::Milliseconds(1);
 
 		_gpio->WritePin(_pin0, PinState::High);
 		_gpio->WritePin(_pin1, PinState::High);
@@ -109,6 +110,6 @@ void FourDigitSevenSegmentDisplay::Display(void)
 		_gpio->WritePin(_pin3, PinState::Low);
 		_gpio->WritePins031(_characterPins->_characterMask, _datBuf[3]);
 
-		Peripheral::DelayMilliseconds(1);
+		Delay::Milliseconds(1);
 	}
 }
