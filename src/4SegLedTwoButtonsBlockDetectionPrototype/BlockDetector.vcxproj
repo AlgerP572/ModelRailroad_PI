@@ -47,15 +47,18 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>$(IncludePath);$(ProjectDir)Headers\</IncludePath>
+    <IncludePath>$(IncludePath);$(ProjectDir)Headers\;C:\GitHub\APLPIe\Src\;C:\GitHub\APLPIe\Src\Headers\;../</IncludePath>
+    <ProjectPublicIncludePath>$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
       <LibraryDependencies>wiringPi;pthread;rt</LibraryDependencies>
     </Link>
     <RemotePostBuildEvent>
-      <Command>gpio export 17 out &amp;&amp; gpio export 18 out &amp;&amp; gpio export 27 out &amp;&amp; gpio export 22 out &amp;&amp; gpio export 23 out &amp;&amp; gpio export 24 out &amp;&amp; gpio export 25 out &amp;&amp; gpio export 2 out &amp;&amp; gpio export 3 out &amp;&amp; gpio export 4 out &amp;&amp; gpio export 8 out &amp;&amp; gpio export 7 out  &amp;&amp; gpio export 7 out  &amp;&amp; gpio export 7 out &amp;&amp; gpio export 19 out &amp;&amp; gpio export 26 out &amp;&amp; gpio export 27 in &amp;&amp; gpio export 28 in</Command>
-      <Message>export pin 17 using the gpio utility so that we can execute the blink program without sudo</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -68,24 +71,44 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\APLPIe\Src\Delay.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Devices\Device.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Devices\Display.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Clock.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Dma.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\DmaMemory.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Gpio.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Peripheral.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Pwm.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\ScreenLog.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Timer.cpp" />
     <ClCompile Include="AxleCounter.cpp" />
-    <ClCompile Include="Display.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="PulseGenerator.cpp" />
     <ClCompile Include="TrainBlockDetector.cpp" />
-    <ClCompile Include="WiringPiExt.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Clock.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Delay.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Device.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Display.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Dma.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\DmaMemory.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Gpio.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\hw-addresses.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Peripheral.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Pwm.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\ScreenLog.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Timer.h" />
     <ClInclude Include="Headers\AxleCounter.h" />
-    <ClInclude Include="Headers\Display.h" />
+    <ClInclude Include="Headers\PulseGenerator.h" />
     <ClInclude Include="Headers\StopWatch.h" />
-    <ClInclude Include="Headers\Timer.h" />
     <ClInclude Include="Headers\TrainBlockDetector.h" />
-    <ClInclude Include="Headers\WiringPiExt.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);$(ProjectDir)Headers\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>RPI_V3</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

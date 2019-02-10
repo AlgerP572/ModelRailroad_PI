@@ -2,18 +2,18 @@
 
 #include <signal.h>
 #include <time.h>
-#include <Timer.h>
-#include <StopWatch.h>
 
 class AxleCounter
 {
 private:
+	Gpio* _gpio = NULL;
+
 	int _leftRailPin;
 	int _rightRailPin;
 	int _leftOutputPin;
 	int _rightOutputPin;
-	int _leftOutputState;
-	int _rightOutputState;
+	PinState _leftOutputState;
+	PinState _rightOutputState;
 
 	int _leftRailCount;
 	int _rightRailCount;
@@ -38,7 +38,7 @@ private:
 public:
 	int AxleCount;
 	
-	AxleCounter(int leftRailPin, int rightRailPin, int leftOutputPin = -1, int rightOutputPin = -1);
+	AxleCounter(Gpio* gpio, int leftRailPin, int rightRailPin, int leftOutputPin = -1, int rightOutputPin = -1);
 	void SysInit(void);
 	void RefreshOutputStatus();
 

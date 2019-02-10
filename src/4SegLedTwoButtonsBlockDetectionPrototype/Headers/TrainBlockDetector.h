@@ -1,7 +1,5 @@
 #pragma once
 
-#include <AxleCounter.h>
-
 class TrainBlockDetector
 {
 private:

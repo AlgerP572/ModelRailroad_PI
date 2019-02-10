@@ -21,6 +21,7 @@ public:
 
 	template <typename F, typename... FArgs>
 	inline static TimeUnit Measure(F&&, FArgs&&...);
+	inline static TimeUnit Now() noexcept;
 
 private:
 	bool _stopped;
@@ -102,4 +103,10 @@ inline TimeUnit Stopwatch<TimeUnit, Clock>::Measure(F&& f, FArgs&&... f_args)
 	auto stop_time = Clock::now();
 
 	return std::chrono::duration_cast<TimeUnit>(stop_time - start_time);
+}
+
+template <typename TimeUnit, typename Clock>
+inline TimeUnit Stopwatch<TimeUnit, Clock>::Now() noexcept
+{
+	return Clock::Now();
 }

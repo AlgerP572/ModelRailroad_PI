@@ -1,6 +1,11 @@
 #include <functional>
 
-#include <TrainBlockDetector.h>
+#include "../../../APLPIe/Src/Headers/Gpio.h"
+#include "../../../APLPIe/Src/Headers/Timer.h"
+#include "./Headers/StopWatch.h"
+
+#include "./Headers/AxleCounter.h"
+#include "./Headers/TrainBlockDetector.h"
 
 
 TrainBlockDetector::TrainBlockDetector(AxleCounter* enterAxleCounter)
