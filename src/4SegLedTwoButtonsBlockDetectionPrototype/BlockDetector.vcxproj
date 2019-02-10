@@ -47,7 +47,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>$(IncludePath);$(ProjectDir)Headers\;C:\GitHub\APLPIe\Src\Headers\;../;</IncludePath>
+    <IncludePath>$(IncludePath);$(ProjectDir)Headers\;C:\GitHub\APLPIe\Src\;C:\GitHub\APLPIe\Src\Headers\;../</IncludePath>
     <ProjectPublicIncludePath>$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -72,16 +72,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\APLPIe\Src\Delay.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Devices\Device.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Devices\Display.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Clock.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Dma.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\DmaMemory.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Gpio.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Peripheral.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Pwm.cpp" />
-    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Timer.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\ScreenLog.cpp" />
+    <ClCompile Include="..\..\..\APLPIe\Src\Timer.cpp" />
     <ClCompile Include="AxleCounter.cpp" />
-    <ClCompile Include="Display.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PulseGenerator.cpp" />
     <ClCompile Include="TrainBlockDetector.cpp" />
@@ -89,6 +90,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Clock.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Delay.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Device.h" />
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Display.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Dma.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\DmaMemory.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Gpio.h" />
@@ -98,14 +101,13 @@
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\ScreenLog.h" />
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Timer.h" />
     <ClInclude Include="Headers\AxleCounter.h" />
-    <ClInclude Include="Headers\Display.h" />
     <ClInclude Include="Headers\PulseGenerator.h" />
     <ClInclude Include="Headers\StopWatch.h" />
     <ClInclude Include="Headers\TrainBlockDetector.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);$(ProjectDir)Headers\;C:\GitHub\APLPIe\Src\Headers\;../;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>RPI_V3</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

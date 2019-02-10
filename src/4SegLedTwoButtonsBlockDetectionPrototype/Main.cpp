@@ -6,16 +6,11 @@
 #include "../../../APLPIe/Src/Headers/Gpio.h"
 #include "../../../APLPIe/Src/Headers/Pwm.h"
 #include "../../../APLPIe/Src/Headers/Timer.h"
+#include "../../../APLPIe/Src/Headers/Display.h"
 
 #include "./Headers/StopWatch.h"
-#include "./Headers/Display.h"
-
 #include "./Headers/AxleCounter.h"
 #include "./Headers/TrainBlockDetector.h"
-
-// MAP of pins the program uses (PI pin numbers here)...
-
-// The LED segments use digitalWriteByte so by definition use PI pins 0 - 7
 
 // Display (These select the digit to display.)
 #define   DisplayPin0    2
@@ -97,6 +92,12 @@ void sysInit(void)
 		peripherals[i]->SysInit();
 	}
 
+	gpio.Export(LeftRailInput);
+	gpio.Export(RightRailInput);
+
+	gpio.Export(LeftRailOutput);
+	gpio.Export(RightRailOutput);
+
 	gpio.Export(DisplayPin0);
 	gpio.Export(DisplayPin1);
 	gpio.Export(DisplayPin2);
@@ -122,6 +123,12 @@ void sysInit(void)
 
 void sysUninit(void)
 {
+	gpio.Unexport(LeftRailInput);
+	gpio.Unexport(RightRailInput);
+
+	gpio.Unexport(LeftRailOutput);
+	gpio.Unexport(RightRailOutput);
+
 	gpio.Unexport(DisplayPin0);
 	gpio.Unexport(DisplayPin1);
 	gpio.Unexport(DisplayPin2);
@@ -157,13 +164,6 @@ int main(void)
 	// can be intialized.
 	sysInit();
 
-	gpio.TestPinExample(19);
-	gpio.TestPinExample(26);
-
-	clockController.TestExample();
-
-	pwm.TestExample();
-
 	while(1)
 	{
 
@@ -177,9 +177,6 @@ int main(void)
 		{
 			axleCounters[i].RefreshOutputStatus();
 		}
-				
-
-		dma.MemoryTestExample();
 	}
 
 	sysUninit();

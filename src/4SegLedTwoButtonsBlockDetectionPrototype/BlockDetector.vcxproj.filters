@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="AxleCounter.cpp" />
-    <ClCompile Include="Display.cpp" />
     <ClCompile Include="TrainBlockDetector.cpp" />
     <ClCompile Include="PulseGenerator.cpp" />
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Clock.cpp">
@@ -24,13 +23,19 @@
     <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Pwm.cpp">
       <Filter>APLPIe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\APLPIe\Src\Peripherals\Timer.cpp">
-      <Filter>APLPIe</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\APLPIe\Src\ScreenLog.cpp">
       <Filter>APLPIe</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\APLPIe\Src\Delay.cpp">
+      <Filter>APLPIe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\APLPIe\Src\Timer.cpp">
+      <Filter>APLPIe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\APLPIe\Src\Devices\Display.cpp">
+      <Filter>APLPIe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\APLPIe\Src\Devices\Device.cpp">
       <Filter>APLPIe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,9 +48,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers\Display.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\AxleCounter.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -86,6 +88,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\APLPIe\Src\Headers\Delay.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Display.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\APLPIe\Src\Headers\Device.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
