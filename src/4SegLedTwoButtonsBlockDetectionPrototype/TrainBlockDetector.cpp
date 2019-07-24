@@ -13,7 +13,10 @@ TrainBlockDetector::TrainBlockDetector(AxleCounter* enterAxleCounter)
 	using namespace std::placeholders;
 
 	_enterAxleCounter = enterAxleCounter;
-	_enterAxleCounter->AxleDtected = std::bind(&TrainBlockDetector::CalculateSpeed, this, _1, _2);
+	_enterAxleCounter->AxleDtected = std::bind(&TrainBlockDetector::CalculateSpeed,
+		this,
+		_1,
+		_2);
 	TrainAxleCount = 0;
 	TrainPresent = false;
 }
