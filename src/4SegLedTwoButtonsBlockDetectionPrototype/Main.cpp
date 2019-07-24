@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <signal.h>
 
 #include "../../../APLPIe/Src/Headers/Clock.h"
 #include "../../../APLPIe/Src/Headers/Dma.h"
@@ -42,7 +43,7 @@ static CharacterDisplayPins characterPins = CharacterDisplayPins(DisplayCharPin0
 
 // AxleCounter
 #define LeftRailInput    16
-#define RightRailInput   20
+#define RightRailInput   12
 
 #define LeftRailOutput 19
 #define RightRailOutput 26
@@ -55,12 +56,12 @@ static Clock clockController("Clock Controller");
 const int numPeripherals = 4;
 static Peripheral** peripherals = new Peripheral*[numPeripherals];
 
-static FourDigitSevenSegmentDisplay display(&gpio,
+static FourDigitSevenSegmentDisplay display(gpio,
 	DisplayPin0,
 	DisplayPin1,
 	DisplayPin2,
 	DisplayPin3,
-	&characterPins);
+	characterPins);
 
 const int numAxleCounters = 1;
 static AxleCounter axleCounters[numAxleCounters] =

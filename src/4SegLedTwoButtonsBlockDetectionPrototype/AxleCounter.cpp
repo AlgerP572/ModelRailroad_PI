@@ -69,6 +69,9 @@ void AxleCounter::LeftRailISR()
 	if (_rightRailCount > 0 &&
 		_leftRailCount > 0)
 	{
+
+		// Nothing to do waiting for reset
+		// to count next axle.
 		return;
 	}
 
@@ -91,8 +94,6 @@ void AxleCounter::LeftRailISR()
 			axleDebounceTime,
 			0);
 
-		CalculateSpeed();
-
 		if (AxleDtected != NULL)
 		{
 			AxleDtected(AxleCount, axelSpeedkmH);
@@ -105,6 +106,9 @@ void AxleCounter::RightRailISR()
 	if (_rightRailCount > 0 &&
 		_leftRailCount > 0)
 	{
+
+		// Nothing to do waiting for reset
+		// to count next axle.
 		return;
 	}
 
